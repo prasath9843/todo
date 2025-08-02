@@ -3,8 +3,9 @@ import sqlite3
 import os
 
 app = Flask(__name__)
-DB_NAME = 'tasks.db'
 
+DB_NAME = 'tasks.db'
+init_db()
 def get_connection():
     conn = sqlite3.connect(DB_NAME)
     conn.row_factory = sqlite3.Row
@@ -12,6 +13,7 @@ def get_connection():
 
 def init_db():
     if not os.path.exists(DB_NAME):
+        conn = sqlite3.connect('todo_databasedb.db')
         conn = get_connection()
         cursor = conn.cursor()
         cursor.execute('''
@@ -71,5 +73,6 @@ if __name__ == '__main__':
     init_db()
     port = int(os.environ.get("PORT", 5000))  # Use PORT from Render
     app.run(host='0.0.0.0', port=port, debug=True)
+
 
 
